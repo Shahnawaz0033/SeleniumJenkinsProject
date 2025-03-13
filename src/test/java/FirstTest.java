@@ -9,11 +9,11 @@ public class FirstTest {
 
     @Test(dataProvider = "data")
     public void Test1(String user, String password){
-//        WebDriver driver = new ChromeDriver();
-//        driver.get("https://the-internet.herokuapp.com/");
-//        System.out.println(driver.getTitle());
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://the-internet.herokuapp.com/");
+        System.out.println(driver.getTitle());
         System.out.println(user+password);
-//        driver.quit();
+        driver.quit();
     }
 
     @DataProvider(name = "data")
