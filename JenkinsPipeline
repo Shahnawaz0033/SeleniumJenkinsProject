@@ -1,9 +1,17 @@
 pipeline {
     agent any
 
+    environment {
+        MAVEN_HOME = 'C:\\apache-maven-3.9.9-bin\\apache-maven-3.9.9'
+        JAVA_HOME = 'C:\\jdk-17.0.12_windows-x64_bin\\jdk-17.0.12'
+        PATH = "${env.PATH};${MAVEN_HOME}\\bin;${JAVA_HOME}\\bin"
+    }
+
     stages {
         stage('Check Environment') {
             steps {
+                echo 'Printing PATH for debugging:'
+                bat 'echo %PATH%'
                 echo 'Checking Maven version for debugging:'
                 bat 'mvn --version'
             }
