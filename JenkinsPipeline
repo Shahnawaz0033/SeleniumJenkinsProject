@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        MAVEN_HOME = "C:\Users\shahnawaz_nagarchi\Downloads\apache-maven-3.9.9-bin"       // Path to Maven installation
-        JAVA_HOME = "C:\Users\shahnawaz_nagarchi\Downloads\jdk-17.0.12_windows-x64_bin\jdk-17.0.12"         // Path to Java installation
+        MAVEN_HOME = 'C:\\Users\\shahnawaz_nagarchi\\Downloads\\apache-maven-3.9.9-bin'       // Path to Maven installation
+        JAVA_HOME = 'C:\\Users\\shahnawaz_nagarchi\\Downloads\\jdk-17.0.12_windows-x64_bin\\jdk-17.0.12'         // Path to Java installation
         PATH = "${env.PATH};${MAVEN_HOME}\\bin;${JAVA_HOME}\\bin" // Add Maven and Java to PATH
     }
 
@@ -18,7 +18,7 @@ pipeline {
         stage('Run Tests with Maven') {
             steps {
                 echo 'Running tests using Maven Surefire Plugin...'
-                // Since you're already using Surefire Plugin with TestNG, the testng.xml will be automatically picked up.
+                // Since Maven is already configured with TestNG in the pom.xml, this command will work
                 bat 'mvn clean test'
             }
         }
@@ -26,8 +26,8 @@ pipeline {
         stage('Archive Test Results') {
             steps {
                 echo 'Archiving test results...'
-                // Save test outputs (XML and HTML) for reviewing later as build artifacts
-                archiveArtifacts artifacts: 'target/surefire-reports/*.xml, target/surefire-reports/*.html', allowEmptyArchive: true
+                // Save Surefire results (XML and HTML files) for reviewing later
+                archiveArtifacts artifacts: 'target/surefire-reports/**/*.html, target/surefire-reports/**/*.xml', allowEmptyArchive: true
             }
         }
     }
