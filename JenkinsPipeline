@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                echo 'Cloning Git repository...'
+                git branch: 'master', url: 'https://github.com/Shahnawaz0033/SeleniumJenkinsProject.git'
+            }
+        }
+
+        stage('Run Tests with Maven') {
+            steps {
+                echo 'Running tests using Maven Surefire Plugin...'
+                // Since you're already using Surefire Plugin with TestNG, the testng.xml will be automatically picked up.
+                bat 'mvn clean test'
+            }
+        }
+
+        stage('Archive Test Results') {
+            steps {
+                echo 'Archiving test results...'
+                // Save test outputs (XML and HTML) for reviewing later as build artifacts
+                archiveArtifacts artifacts: 'target/surefire-reports/*.xml, target/surefire-reports/*.html', allowEmptyArchive: true
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Publishing test results...'
+            junit 'target/surefire-reports/*.xml' // Publish Surefire Plugin results in Jenkins
+        }
+
+        success {
+            echo 'Build succeeded!'
+        }
+
+        failure {
+            echo 'Build failed!'
+        }
+    }
+}
