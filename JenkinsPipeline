@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        MAVEN_HOME = "C:\Users\shahnawaz_nagarchi\Downloads\apache-maven-3.9.9-bin"       // Path to Maven installation
+        JAVA_HOME = "C:\Users\shahnawaz_nagarchi\Downloads\jdk-17.0.12_windows-x64_bin\jdk-17.0.12"         // Path to Java installation
+        PATH = "${env.PATH};${MAVEN_HOME}\\bin;${JAVA_HOME}\\bin" // Add Maven and Java to PATH
+    }
+
     stages {
         stage('Clone Repository') {
             steps {
