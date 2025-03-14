@@ -31,7 +31,7 @@ pipeline {
                 echo 'Running tests using Maven Surefire Plugin...'
                   script {
                        if (params.TESTNG_FILE == 'ALL_TESTS') {
-                           bat 'mvn clean test'
+                           bat "mvn clean test"
                        } else {
                            bat "mvn clean test -DsuiteXmlFile=src/test/resources/${params.TESTNG_FILE}"
                        }

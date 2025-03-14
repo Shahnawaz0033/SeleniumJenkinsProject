@@ -60,10 +60,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
                 <configuration>
-                    <!-- Default TestNG XML file, overridden dynamically -->
                     <suiteXmlFiles>
-                        <!-- The default file path, assuming it’s stored in src/test/resources -->
-                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/resources/testng2.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
