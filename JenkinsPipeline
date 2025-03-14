@@ -30,11 +30,17 @@ pipeline {
             steps {
                 echo 'Running tests using Maven Surefire Plugin...'
                   script {
-                       if (params.TESTNG_FILE == 'ALL_TESTS') {
-                           bat "mvn clean test"
-                       } else {
-                           bat "mvn clean test -DsuiteXmlFile=src/test/resources/${params.TESTNG_FILE}"
-                       }
+                           if (params.TESTNG_FILE == 'ALL_TESTS') {
+                                       // Find all XML files in 'src/test/resources/' and join them with commas
+                                       def xmlFiles = findFiles(glob: 'src/test/resources/*.xml')
+                                                      .collect { it.path }
+                                                      .join(',')
+                                       echo "Running ALL TestNG XML files: ${xmlFiles}"
+                                       bat "mvn clean test -DsuiteXmlFile=${xmlFiles}" // Pass all XML files as a comma-separated list
+                                   } else {
+                                       echo "Running tests with TestNG file: ${params.TESTNG_FILE}"
+                                       bat "mvn clean test -DsuiteXmlFile=src/test/resources/${params.TESTNG_FILE}" // Pass specific XML file
+                                   }
                    }
             }
         }
