@@ -1,7 +1,13 @@
 pipeline {
     agent any
 
-
+    parameters {
+        choice(
+            name: 'TESTNG_FILE',
+            choices: ['testng.xml', 'testng2.xml', 'ALL_TESTS'],
+            description: 'Select the TestNG XML file to run'
+        )
+    }
 
     stages {
         stage('Check Environment') {
@@ -23,7 +29,13 @@ pipeline {
         stage('Run Tests with Maven') {
             steps {
                 echo 'Running tests using Maven Surefire Plugin...'
-                bat 'mvn clean test'
+                  script {
+                       if (params.TESTNG_FILE == 'ALL_TESTS') {
+                           bat 'mvn clean test'
+                       } else {
+                           bat "mvn clean test -DsuiteXmlFile=src/test/resources/${params.TESTNG_FILE}"
+                       }
+                   }
             }
         }
 
